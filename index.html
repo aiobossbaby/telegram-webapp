@@ -167,45 +167,50 @@
     donateInfo.style.display = 'none';
   };
 
-  // ✨ Confetti Background
-  const canvas = document.getElementById('confetti');
-  const ctx = canvas.getContext('2d');
+  // Confetti Background Fix
+const canvas = document.getElementById('confetti');
+const ctx = canvas.getContext('2d');
+
+function resizeCanvas() {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas); // ✅ responsive fix
 
-  const confetti = [];
-  for (let i = 0; i < 100; i++) {
-    confetti.push({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      r: Math.random() * 4 + 1,
-      d: Math.random() * 40 + 10
-    });
-  }
+const confetti = [];
+for (let i = 0; i < 100; i++) {
+  confetti.push({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    r: Math.random() * 4 + 1,
+    d: Math.random() * 40 + 10
+  });
+}
 
-  function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = 'gold';
-    confetti.forEach(p => {
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2, true);
-      ctx.fill();
-    });
-    update();
-  }
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = 'gold';
+  confetti.forEach(p => {
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2, true);
+    ctx.fill();
+  });
+  update();
+}
 
-  function update() {
-    confetti.forEach(p => {
-      p.y += Math.cos(p.d) + 1 + p.r / 2;
-      p.x += Math.sin(p.d) * 2;
-      if (p.y > canvas.height) {
-        p.x = Math.random() * canvas.width;
-        p.y = -10;
-      }
-    });
-  }
+function update() {
+  confetti.forEach(p => {
+    p.y += Math.cos(p.d) + 1 + p.r / 2;
+    p.x += Math.sin(p.d) * 2;
+    if (p.y > canvas.height) {
+      p.x = Math.random() * canvas.width;
+      p.y = -10;
+    }
+  });
+}
 
-  setInterval(draw, 33);
+setInterval(draw, 33);>
 </script>
 
 </body>
