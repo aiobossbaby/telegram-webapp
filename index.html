@@ -1,24 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="my">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>ဖော်မြုလာစိုင်း</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&display=swap');
-
     body {
       margin: 0;
       font-family: 'Playfair Display', serif;
       background: linear-gradient(135deg, #111, #222);
       color: gold;
       display: flex;
-      justify-content: center;
-      align-items: center;
       flex-direction: column;
-      height: 100vh;
-      overflow: hidden;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
       text-align: center;
+      overflow-x: hidden;
     }
 
     .card {
@@ -26,16 +25,14 @@
       padding: 40px;
       border-radius: 20px;
       box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
-      backdrop-filter: blur(10px);
       border: 2px solid gold;
+      backdrop-filter: blur(10px);
       max-width: 700px;
-      animation: fadeIn 2s ease;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
     }
 
-    h1 {
-      font-size: 2.5em;
-      margin-bottom: 10px;
+    h3 {
+      font-size: 2.2em;
     }
 
     p {
@@ -45,9 +42,37 @@
       line-height: 1.6;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.9); }
-      to { opacity: 1; transform: scale(1); }
+    button {
+      background-color: gold;
+      color: black;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-size: 1em;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(255, 215, 0, 0.4);
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #ffd700cc;
+      transform: scale(1.05);
+    }
+
+    #donateInfo {
+      display: none;
+      position: fixed;
+      top: 20%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #222;
+      color: #ffd700;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px gold;
+      z-index: 100;
+      max-width: 90%;
     }
 
     canvas {
@@ -57,20 +82,14 @@
       z-index: -1;
     }
 
-    #donateBtn {
-      padding: 12px 24px;
-      background: gold;
-      color: #111;
-      font-weight: bold;
-      font-size: 1em;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: all 0.3s ease;
+    #qrCanvas {
+      margin: 10px auto;
     }
 
-    #donateBtn:hover {
-      background: #ffe066;
+    #donateInfo button {
+      display: block;
+      width: 100%;
+      margin-top: 10px;
     }
   </style>
 </head>
@@ -81,21 +100,74 @@
 <div class="card">
   <h3>၂၉ရက်နေ့မှစ၍</h3>
   <p><strong>တစ်ပတ်အတွက်</strong></p>
-  <p>နှစ်ရက်မကျော်ငွေပေါ် - သုံည  
-     သုံးရက်မကျော်ငွေပေါ် - သုံး</p>
-  <p>တစ်ပတ်စာမွေး - သုံးဘရိတ် (၅၈၊၃၀၊၄၉)<br>
-     မွေး - ၂၇၄၉ ခွေပူး<br>
-     ၂၄၀ ကိုမကပ်ထွက်မယ်။<br>
-     (၂၁၊၂၉၊၄၃၊၄၅၊၃၀၊၉၀)
-  </p>
+  <p>• နှစ်ရက်မကျော်ငွေပေါ် - သုံည<br>
+     • သုံးရက်မကျော်ငွေပေါ် - သုံး</p>
+  <p>• တစ်ပတ်စာမွေး - သုံးဘရိတ် (၅၈၊၃၀၊၄၉)<br>
+     • မွေး - ၂၇၄၉ ခွေပူး<br>
+     • ၂၄၀ ကိုမကပ်ထွက်မယ်။<br>
+     • (၂၁၊၂၉၊၄၃၊၄၅၊၃၀၊၉၀)</p>
 </div>
 
-<!-- ✅ Donate Button -->
-<button id="donateBtn">💸 ကောင်းကံရမည့်လှူဒါန်းမှု</button>
+<!-- 💸 Donate Button -->
+<button id="donateBtn">ကောင်းကံရရန်လှူဒါန်းမှု 💸</button>
 
-<!-- ✅ Script Section -->
+<!-- 💳 Popup Info -->
+<div id="donateInfo">
+  <h3>ကောင်းကံရရန်လှူဒါန်းမှု</h3>
+  <p>K PAY: Sai leng tip - <code>09763621871</code></p>
+  <p>WaveMoney: Ye Yint Aung - <code>09959798878</code></p>
+  <small>ကူးယူပါ၊ ဒါမှမဟုတ် QR ကိုစကင်ဖတ်ပါ</small>
+  <canvas id="qrCanvas"></canvas>
+  <button id="copyBtn">နံပါတ်တွေ ကူးယူမယ်</button>
+  <button id="goToBotBtn">Bot မှာ ပြန်သွားမယ်</button>
+  <button id="closeBtn">ပိတ်မယ်</button>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
 <script>
-  // Confetti animation
+  const donateBtn = document.getElementById('donateBtn');
+  const donateInfo = document.getElementById('donateInfo');
+  const copyBtn = document.getElementById('copyBtn');
+  const closeBtn = document.getElementById('closeBtn');
+  const goToBotBtn = document.getElementById('goToBotBtn');
+  const qrCanvas = document.getElementById('qrCanvas');
+
+  const donationText = "K PAY: Sai leng tip - 09763621871\nWaveMoney: Ye Yint Aung - 09959798878";
+  const TELEGRAM_BOT_TOKEN = "8315094748:AAGMHP53CqdDipmFFZmfzGfDhvx1YcBWl78";
+  const TELEGRAM_CHAT_ID = "5745825285";
+
+  donateBtn.onclick = () => {
+    donateInfo.style.display = 'block';
+    QRCode.toCanvas(qrCanvas, "09763621871", function (error) {
+      if (error) console.error(error);
+    });
+
+    // 🔁 Log to Telegram bot
+    fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        chat_id: TELEGRAM_CHAT_ID,
+        text: "📥 WebApp မှလှူဒါန်းချက် Popup ဖွင့်ပြီးပါပြီ။"
+      })
+    });
+  };
+
+  copyBtn.onclick = () => {
+    navigator.clipboard.writeText(donationText)
+      .then(() => alert('နံပါတ်တွေကူးယူပြီးပါပြီ!'))
+      .catch(() => alert('ကူးယူမှု မအောင်မြင်ပါ!'));
+  };
+
+  goToBotBtn.onclick = () => {
+    window.open("https://t.me/sibyl_royalbot", "_blank");
+  };
+
+  closeBtn.onclick = () => {
+    donateInfo.style.display = 'none';
+  };
+
+  // ✨ Confetti Background
   const canvas = document.getElementById('confetti');
   const ctx = canvas.getContext('2d');
   canvas.width = window.innerWidth;
@@ -126,7 +198,6 @@
     confetti.forEach(p => {
       p.y += Math.cos(p.d) + 1 + p.r / 2;
       p.x += Math.sin(p.d) * 2;
-
       if (p.y > canvas.height) {
         p.x = Math.random() * canvas.width;
         p.y = -10;
@@ -135,14 +206,6 @@
   }
 
   setInterval(draw, 33);
-
-  // ✅ Bot Chat Link
-  const donateBtn = document.getElementById('donateBtn');
-  const botLink = "https://t.me/fomula_saibot"; // <-- မင်း bot username ထည့်ထား
-
-  donateBtn.onclick = () => {
-    window.open(botLink, "_blank");
-  };
 </script>
 
 </body>
