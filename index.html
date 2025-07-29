@@ -173,8 +173,7 @@ const ctx = canvas.getContext('2d');
 
 function resizeCanvas() {
   canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-}
+  canvas.height = window.innerHeight * 0.6; } // ✅ only 60% height
 resizeCanvas();
 window.addEventListener('resize', resizeCanvas); // ✅ responsive fix
 
