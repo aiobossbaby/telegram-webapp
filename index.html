@@ -107,16 +107,16 @@
      • ၂၄၀ ကိုမကပ်ထွက်မယ်။<br>
      • (၂၁၊၂၉၊၄၃၊၄၅၊၃၀၊၉၀)</p>
 </div>
-
-<!-- 💸 Donate Button -->
+<div>
+<!-- Donate Button -->
 <button id="donateBtn">ကောင်းကံရရန်လှူဒါန်းမှု 💸</button>
 
-<!-- 💳 Popup Info -->
-<div id="donateInfo">
+<!-- Popup Section -->
+<div id="donateInfo" style="display:none; position:fixed; top:20%; left:50%; transform:translateX(-50%); background:#222; color:#ffd700; padding:20px; border-radius:10px; box-shadow:0 0 10px gold; z-index:100;">
   <h3>ကောင်းကံရရန်လှူဒါန်းမှု</h3>
   <p>K PAY: Sai leng tip - <code>09763621871</code></p>
   <p>WaveMoney: Ye Yint Aung - <code>09959798878</code></p>
-  <small>ကူးယူပါ၊ ဒါမှမဟုတ် QR ကိုစကင်ဖတ်ပါ</small>
+  <small>ကူးယူပါ၊ ဒါမှမဟုတ် QR ကို စကင်ဖတ်ပါ</small>
   <canvas id="qrCanvas"></canvas>
   <button id="copyBtn">နံပါတ်တွေ ကူးယူမယ်</button>
   <button id="goToBotBtn">Bot မှာ ပြန်သွားမယ်</button>
@@ -142,7 +142,6 @@
       if (error) console.error(error);
     });
 
-    // 🔁 Log to Telegram bot
     fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -156,7 +155,7 @@
   copyBtn.onclick = () => {
     navigator.clipboard.writeText(donationText)
       .then(() => alert('နံပါတ်တွေကူးယူပြီးပါပြီ!'))
-      .catch(() => alert('ကူးယူမှု မအောင်မြင်ပါ!'));
+      .catch(() => alert('ကူးယူရန် မအောင်မြင်ပါ!'));
   };
 
   goToBotBtn.onclick = () => {
@@ -166,50 +165,6 @@
   closeBtn.onclick = () => {
     donateInfo.style.display = 'none';
   };
-
-  // Confetti Background Fix
-const canvas = document.getElementById('confetti');
-const ctx = canvas.getContext('2d');
-
-function resizeCanvas() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight * 0.6; } // ✅ only 60% height
-resizeCanvas();
-window.addEventListener('resize', resizeCanvas); // ✅ responsive fix
-
-const confetti = [];
-for (let i = 0; i < 100; i++) {
-  confetti.push({
-    x: Math.random() * canvas.width,
-    y: Math.random() * canvas.height,
-    r: Math.random() * 4 + 1,
-    d: Math.random() * 40 + 10
-  });
-}
-
-function draw() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.fillStyle = 'gold';
-  confetti.forEach(p => {
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2, true);
-    ctx.fill();
-  });
-  update();
-}
-
-function update() {
-  confetti.forEach(p => {
-    p.y += Math.cos(p.d) + 1 + p.r / 2;
-    p.x += Math.sin(p.d) * 2;
-    if (p.y > canvas.height) {
-      p.x = Math.random() * canvas.width;
-      p.y = -10;
-    }
-  });
-}
-
-setInterval(draw, 33);>
 </script>
 
 </body>
