@@ -1,40 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>ဖော်မြုလာစိုင်း</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&display=swap');
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title ဖော်မြူလာစိုင်း – Login with Phone</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-green-100 to-white min-h-screen flex items-center justify-center px-4">
+  <div class="bg-white rounded-2xl shadow-xl p-8 max-w-md w-full">
+    <h1 class="text-3xl font-bold text-center text-green-700 mb-6">📱 AIO Panel</h1>
+    <p class="text-center text-gray-500 mb-6">ဖုန်းနံပါတ်ဖြင့် login သို့မဟုတ် register ပြုလုပ်ပါ</p>
 
-    body {
-      margin: 0;
-      font-family: 'Playfair Display', serif;
-      background: linear-gradient(135deg, #111, #222);
-      color: gold;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      height: 100vh;
-      overflow: hidden;
-      text-align: center;
-    }
+    <form id="loginForm" class="space-y-4">
+      <input type="tel" id="phone" placeholder="ဖုန်းနံပါတ် (ဥပမာ 09xxxxxxxxx)" required
+        class="w-full border border-gray-300 rounded-lg px-4 py-2 text-lg focus:outline-none focus:ring-2 focus:ring-green-500"/>
 
-    .card {
-      background: rgba(255, 215, 0, 0.05);
-      padding: 40px;
-      border-radius: 20px;
-      box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
-      backdrop-filter: blur(10px);
-      border: 2px solid gold;
-      max-width: 700px;
-      animation: fadeIn 2s ease;
-      margin-bottom: 30px;
-    }
+      <button type="submit"
+        class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 rounded-lg transition">
+        ✅ Login / Register
+      </button>
+    </form>
 
-    h1 {
-      font-size: 2.5em;
+    <div id="result" class="text-center mt-4 text-sm text-gray-600"></div>
+  </div>
+
+  <script>
+    const SHEET_API = "https://sheet.best/api/sheets/YOUR-SHEET-ID"; // ← သင့် Sheet.best URL နဲ့အစားထိုးပါ
+    const TELEGRAM_BOT_LINK = "https://t.me/fomula_saibot"; // ← သင့် bot username
+
+    document.getElementById("loginForm").addEventListener("submit", async function (e) {
+      e.preventDefault();
+      const phone = document.getElementById("phone").value;
+      const result = document.getElementById("result");
+      result.textContent = "⏳ Sending...";
+
+      try {
+        const response = await fetch(SHEET_API, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            phone: phone,
+            time: new Date().toLocaleString()
+          })
+        });
+
+        if (response.ok) {
+          result.innerHTML = "✅ အောင်မြင်ပါသည်။ အဖွဲ့အတွင်းသို့စာရင်းသွင်းပြီးပါပြီ။...";
+          setTimeout(() => {
+            window.location.href = TELEGRAM_BOT_LINK;
+          }, 2000);
+        } else {
+          result.textContent = "❌ Error: can't save to sheet.";
+        }
+      } catch (err) {
+        result.textContent = "⚠ Error: " + err.message;
+      }
+    });
+  </script>
+</body>
+</html>      font-size: 2.5em;
       margin-bottom: 10px;
     }
 
