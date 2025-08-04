@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>🧠 Fomula Sai`s  Tips</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
+
+    body {
+      margin: 0;
+      padding: 20px;
+      background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
+      font-family: 'Orbitron', sans-serif;
+      color: gold;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      height: 100vh;
+    }
+
+    h2 {
+      font-size: 2em;
+      margin-bottom: 20px;
+      text-shadow: 0 0 10px gold;
+    }
+
+    .btn-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 15px;
+      width: 100%;
+      max-width: 500px;
+    }
+
+    button {
+      background: rgba(255, 215, 0, 0.15);
+      color: gold;
+      border: 1px solid gold;
+      border-radius: 12px;
+      padding: 15px 10px;
+      font-size: 1em;
+      font-weight: bold;
+      cursor: pointer;
+      backdrop-filter: blur(5px);
+      box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background: gold;
+      color: #111;
+      box-shadow: 0 0 20px gold;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Command Panel</h2>
+
+  <div class="btn-grid">
+    <button onclick="sendCommand('/mm_today')">MM Today</button>
+    <button onclick="sendCommand('/mm_1201')">MM 1201</button>
+    <button onclick="sendCommand('/mm_0430')">MM 0430</button>
+    <button onclick="sendCommand('/dubai_morning')">Dubai Morning</button>
+    <button onclick="sendCommand('/dubai_night')">Dubai Night</button>
+    <button onclick="sendCommand('/du_lucky')">DU Lucky</button>
+    <button onclick="sendCommand('/donote_now')">Donate Now</button>
+  </div>
+
+  <script>
+    const tg = window.Telegram.WebApp;
+    tg.ready();
+
+    function sendCommand(command) {
+      const payload = {
+        user_id: tg.initDataUnsafe?.user?.id,
+        message: command
+      };
+
+      fetch("https://YOUR_BACKEND_URL/send", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(payload)
+      })
+      .then(() => alert(" Command sent: " + command))
+      .catch(() => alert("❌ Sending failed."));
+    }
+  </script>
+</body>
+</html>
