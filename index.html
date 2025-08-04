@@ -1,114 +1,86 @@
-<!-- File: index.html --><!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>📱 AIO Panel – Login + OTP + Telegram</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script async src="https://telegram.org/js/telegram-widget.js?7"
-          data-telegram-login="fomula_saibot"   <!-- 🟡 Bot username -->
-          data-size="large"
-          data-request-access="write"
-          data-onauth="onTelegramAuth(user)"
-          data-userpic="false">
-  </script>
-</head>
-<body class="bg-gradient-to-br from-green-50 to-white min-h-screen flex items-center justify-center px-4">
-  <div class="bg-white rounded-2xl shadow-xl p-8 max-w-md w-full">
-    <h1 class="text-3xl font-bold text-center text-green-700 mb-4">📲 AIO Panel</h1>
-    <p class="text-center text-gray-500 mb-4">ဖုန်းနံပါတ်ဖြင့် OTP Login</p><form id="loginForm" class="space-y-4">
-  <input type="tel" id="phone" placeholder="ဖုန်းနံပါတ် (09xxxxxxx)" required
-    class="w-full border border-gray-300 rounded-lg px-4 py-2 text-lg focus:outline-none focus:ring-2 focus:ring-green-500" />
-
-  <button type="submit"
-    class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 rounded-lg transition">
-    Send OTP
-  </button>
-</form>
-
-<form id="otpForm" class="space-y-4 hidden mt-4">
-  <input type="text" id="otp" placeholder="OTP (6-digits)" required
-    class="w-full border border-gray-300 rounded-lg px-4 py-2 text-lg focus:outline-none focus:ring-2 focus:ring-yellow-500" />
-
-  <button type="submit"
-    class="w-full bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 rounded-lg transition">
-    Verify OTP
-  </button>
-</form>
-
-<div id="result" class="text-center mt-4 text-sm text-gray-600"></div>
-
-<div class="text-center mt-6">
-  <p class="text-sm text-gray-500 mb-2">သို့မဟုတ် Telegram ဖြင့်ဝင်ပါ:</p>
-  <!-- 🔵 Telegram Login Widget will show here -->
-</div>
-
-  </div>  <script>
-    const API_REGISTER = "https://apiv2.shweballone.com/api/user/register?language=mm";
-    const API_VERIFY = "https://apiv2.shweballone.com/api/user/verify-otp";
-    const BOT_LINK = "https://t.me/fomula_saibot"; // 🟡 Bot redirect after login
-
-    const loginForm = document.getElementById("loginForm");
-    const otpForm = document.getElementById("otpForm");
-    const phoneInput = document.getElementById("phone");
-    const otpInput = document.getElementById("otp");
-    const result = document.getElementById("result");
-
-    loginForm.addEventListener("submit", async function(e) {
-      e.preventDefault();
-      const phone = phoneInput.value;
-      result.textContent = "📡 Sending OTP...";
-
-      try {
-        const res = await fetch(API_REGISTER, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ phone })
-        });
-
-        const data = await res.json();
-        if (res.ok) {
-          result.textContent = "✅ OTP ပေးပို့ပြီးပါပြီ။";
-          loginForm.classList.add("hidden");
-          otpForm.classList.remove("hidden");
-        } else {
-          result.textContent = "❌ " + (data.message || "Register failed");
-        }
-      } catch (err) {
-        result.textContent = "⚠ Network error: " + err.message;
-      }
-    });
-
-    otpForm.addEventListener("submit", async function(e) {
-      e.preventDefault();
-      const otp = otpInput.value;
-      const phone = phoneInput.value;
-
-      result.textContent = "⏳ Verifying...";
-
-      try {
-        const res = await fetch(API_VERIFY, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ phone, otp })
-        });
-
-        const data = await res.json();
-        if (res.ok) {
-          result.textContent = "🎉 Success! Redirecting to bot...";
-          setTimeout(() => {
-            window.location.href = BOT_LINK;
-          }, 2000);
-        } else {
-          result.textContent = "❌ " + (data.message || "OTP failed");
-        }
-      } catch (err) {
-        result.textContent = "⚠ Network error: " + err.message;
-      }
-    });
-
-    function onTelegramAuth(user) {
-      result.innerHTML = `👤 Telegram Verified: <b>${user.username}</b>`;
-      // You can send to backend or combine with phone info here
+  <meta charset="UTF-8">
+  <title>🛡️ Login Required</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    body {
+      background: #111;
+      color: gold;
+      font-family: sans-serif;
+      text-align: center;
+      padding-top: 100px;
     }
-  </script></body>
+    input {
+      padding: 10px;
+      font-size: 1em;
+      border-radius: 6px;
+      border: none;
+      margin: 10px;
+      width: 80%;
+      max-width: 300px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 1em;
+      border-radius: 6px;
+      border: none;
+      background: gold;
+      color: #111;
+      cursor: pointer;
+    }
+    button:hover {
+      background: orange;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>🔐 VIP Login</h2>
+  <p>Your VIP Key</p>
+
+  <input type="password" id="pw" placeholder="Your VIP KEY ">
+  <br>
+  <button onclick="checkLogin()">Login</button>
+
+  <script>
+    const tg = window.Telegram.WebApp;
+    tg.ready();
+
+    // ✅ User ID ↔ Password List
+    const passwordList = {
+      1712916865: "တနွေး",
+      5745825285: "ဘစိုင်း",
+      1583743008: "တလိ",
+      6489376843: "တခိုင်",
+      5002068342: "ဂျပန်မယ်တော်",
+      6319985903: "ကောင်းကောင်း",
+      6741560013: "ရှမ်းကြီးမိန်းမ",
+      7838802300: "အက်တမင်"
+    };
+
+    function checkLogin() {
+      const inputPw = document.getElementById("pw").value.trim();
+      const userId = tg.initDataUnsafe?.user?.id;
+
+      if (!userId) {
+        alert("❌ Telegram WebApp ကိုပြန်ဖွင့်ပါ");
+        return;
+      }
+
+      const expectedPw = passwordList[userId];
+
+      if (expectedPw && inputPw === expectedPw) {
+        localStorage.setItem("auth_ok", "yes");
+        localStorage.setItem("auth_user", userId);
+        window.location.href = "dashboard.html";
+      } else {
+        alert("⛔ Password မမှန်ပါ၊ ဝင်ခွင့်မရှိပါ");
+      }
+    }
+  </script>
+
+</body>
 </html>
