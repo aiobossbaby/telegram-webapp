@@ -1,16 +1,4 @@
-<script>
-async function checkVIP() {
-  const inputKey = document.getElementById('vipkey').value;
-  const userId = Telegram.WebApp.initDataUnsafe.user.id;
-
-  const response = await fetch("users.json");
-  const vipList = await response.json();
-
-  if (vipList[userId] === inputKey) {
-    localStorage.setItem("auth_ok", "1");
-    window.location.href = "dashboard.html";
-  } else {
-    alert("❌ VIP Key မမှန်ပါ");
-  }
-}
-</script>
+📁 index.html
+VIP Login body { background: #0d0d0d; color: gold; font-family: 'Segoe UI', sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; padding: 20px; } h1 { text-shadow: 0 0 10px gold; } input { padding: 10px; border: none; border-radius: 8px; width: 200px; margin-bottom: 10px; } button { background: gold; color: black; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; } button:hover { background: darkorange; } 
+🔐 VIP Login
+Login const tg = window.Telegram.WebApp; tg.ready(); async function checkVIP() { const inputKey = document.getElementById('vipkey').value; const userId = tg.initDataUnsafe?.user?.id.toString(); const response = await fetch("users.json"); const vipList = await response.json(); if (vipList[userId] === inputKey) { localStorage.setItem("auth_ok", "1"); window.location.href = "dashboard.html"; } else { alert("❌ VIP Key မမှန်ပါ။"); } }
