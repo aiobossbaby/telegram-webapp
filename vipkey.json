@@ -1,0 +1,3 @@
+📋VIP Panel
+MM Today MM 1201 MM 0430 Dubai Morning Dubai Night DU Lucky Donate Now 
+const tg = window.Telegram.WebApp; tg.ready(); function sendCommand(command) { const payload = { user_id: tg.initDataUnsafe?.user?.id, message: command }; fetch("https://YOUR_BACKEND_URL/send", { method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify(payload) }) .then(() => alert("✅ Command sent: " + command)) .catch(() => alert("❌ Sending failed.")); }
