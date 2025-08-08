@@ -1,88 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>🛡️ Login Required</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <style>
-    body {
-      background: #111;
-      color: gold;
-      font-family: sans-serif;
-      text-align: center;
-      padding-top: 100px;
-    }
-    input {
-      padding: 10px;
-      font-size: 1em;
-      border-radius: 6px;
-      border: none;
-      margin: 10px;
-      width: 80%;
-      max-width: 300px;
-    }
-    button {
-      padding: 10px 20px;
-      font-size: 1em;
-      border-radius: 6px;
-      border: none;
-      background: gold;
-      color: #111;
-      cursor: pointer;
-    }
-    button:hover {
-      background: orange;
-    }
-  </style>
-</head>
-<body>
+<script>
+async function checkVIP() {
+  const inputKey = document.getElementById('vipkey').value;
+  const userId = Telegram.WebApp.initDataUnsafe.user.id;
 
-  <h2>🔐 VIP Login</h2>
-  <p>Your VIP Key</p>
+  const response = await fetch("users.json");
+  const vipList = await response.json();
 
-  <input type="password" id="pw" placeholder="Your VIP KEY ">
-  <br>
-  <button onclick="checkLogin()">Login</button>
-
-  <script>
-    const tg = window.Telegram.WebApp;
-    tg.ready();
-
-    // ✅ User ID ↔ Password List
-    const passwordList = {
-      1712916865: "တနွေး",
-      5745825285: "ဘစိုင်း",
-      1583743008: "တလီ",
-      6489376843: "တခိုင်",
-      5002068342: "ဂျပန်မယ်တော်",
-      6319985903: "ကောင်းကောင်း",
-      6741560013: "ရှမ်းကြီးမိန်းမ",
-      7838802300: "အက်တမင်",
-      2116585639: "ဘထူး"
-      5367064547: "အဆဲဘုရင်"
-    };
-
-    function checkLogin() {
-      const inputPw = document.getElementById("pw").value.trim();
-      const userId = tg.initDataUnsafe?.user?.id;
-
-      if (!userId) {
-        alert("❌ Telegram WebApp ကိုပြန်ဖွင့်ပါ");
-        return;
-      }
-
-      const expectedPw = passwordList[userId];
-
-      if (expectedPw && inputPw === expectedPw) {
-        localStorage.setItem("auth_ok", "yes");
-        localStorage.setItem("auth_user", userId);
-        window.location.href = "dashboard.html";
-      } else {
-        alert("⛔ Password မမှန်ပါ၊ ဝင်ခွင့်မရှိပါ");
-      }
-    }
-  </script>
-
-</body>
-</html>
+  if (vipList[userId] === inputKey) {
+    localStorage.setItem("auth_ok", "1");
+    window.location.href = "dashboard.html";
+  } else {
+    alert("❌ VIP Key မမှန်ပါ");
+  }
+}
+</script>
