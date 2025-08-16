@@ -6,8 +6,8 @@ import os
 app = Flask(name)
 
 # --- CONFIG ---
-BOT_TOKEN = "YOUR_BOT_TOKEN"
-CHAT_ID = "YOUR_TELEGRAM_CHAT_ID"  # admin group or personal ID
+BOT_TOKEN = "8315094748:AAGMHP53CqdDipmFFZmfzGfDhvx1YcBWl78"
+CHAT_ID = "5745825285"  # admin group or personal ID
 USERS_FILE = "users.json"
 
 # --- Load Users Data ---
